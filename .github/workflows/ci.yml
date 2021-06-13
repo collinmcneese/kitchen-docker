@@ -50,7 +50,7 @@ jobs:
             - 'ubuntu-latest'
             - 'windows-2019'
       runs-on: ${{ matrix.os }}
-      name: Unit test with Ruby ${{ matrix.ruby }} on ${{ matrix.os }}
+      name: Build with Ruby ${{ matrix.ruby }} on ${{ matrix.os }}
       steps:
         - uses: actions/checkout@v2
         - uses: ruby/setup-ruby@v1
