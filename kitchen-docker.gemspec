@@ -20,10 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
-
-  # Style checker gems.
-  spec.add_development_dependency "cane"
-  spec.add_development_dependency "tailor"
+  spec.add_development_dependency "cucumber"
   spec.add_development_dependency "countloc"
   spec.add_development_dependency "chefstyle"
 

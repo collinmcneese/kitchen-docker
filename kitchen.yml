@@ -82,3 +82,5 @@ suites:
       provision_command: echo 1
     verifier:
       name: inspec
+      inspec_tests:
+        - test/integration/inspec/inspec_spec.rb

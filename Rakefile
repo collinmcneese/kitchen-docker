@@ -1,24 +1,34 @@
 require "bundler/gem_tasks"
-require "cane/rake_task"
-require "tailor/rake_task"
 
-desc "Run cane to check quality metrics"
-Cane::RakeTask.new do |cane|
-  cane.canefile = "./.cane"
+require "rake/testtask"
+Rake::TestTask.new(:unit) do |t|
+  t.libs.push "lib"
+  t.test_files = FileList["spec/**/*_spec.rb"]
+  t.verbose = true
 end
 
-Tailor::RakeTask.new
-
-desc "Display LOC stats"
-task :stats do
-  puts "\n## Production Code Stats"
-  sh "countloc -r lib"
+begin
+  require "cucumber"
+  require "cucumber/rake/task"
+  Cucumber::Rake::Task.new(:features) do |t|
+    t.cucumber_opts = ["features", "-x", "--format progress", "--no-color", "--tags ~@ignore"]
+  end
+rescue LoadError
+  puts "cucumber is not available. (sudo) gem install cucumber to run tests."
 end
 
 desc "Run all quality tasks"
 task quality: [:style]
 
 task default: [:quality]
+
+desc "Display LOC stats"
+task :stats do
+  puts "\n## Production Code Stats"
+  sh "countloc -r lib/kitchen lib/kitchen.rb"
+  puts "\n## Test Code Stats"
+  sh "countloc -r spec features"
+end
 
 begin
   require "chefstyle"
@@ -28,18 +38,4 @@ begin
   end
 rescue LoadError
   puts "chefstyle is not available. (sudo) gem install chefstyle to do style checking."
-end
-
-# Create the spec task.
-require "rspec/core/rake_task"
-RSpec::Core::RakeTask.new(:spec, :tag) do |t, args|
-  t.rspec_opts = [].tap do |a|
-    a << "--color"
-    a << "--format #{ENV["CI"] ? "documentation" : "Fuubar"}"
-    a << "--backtrace" if ENV["VERBOSE"] || ENV["DEBUG"]
-    a << "--seed #{ENV["SEED"]}" if ENV["SEED"]
-    a << "--tag #{args[:tag]}" if args[:tag]
-    a << "--default-path test"
-    a << "-I test/spec"
-  end.join(" ")
 end
