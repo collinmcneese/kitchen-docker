@@ -84,7 +84,7 @@ jobs:
         - run: bundle exec kitchen test ${{ matrix.kitchen-suite }}
 
   functional-windows:
-      needs: build
+      # needs: build
       strategy:
         matrix:
           kitchen-suite:
