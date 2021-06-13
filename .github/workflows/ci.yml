@@ -64,7 +64,7 @@ jobs:
         matrix:
           os:
             - amazonlinux-2
-            - ubuntu-18.04
+            - ubuntu-1804
             - fedora-latest
             - centos-7
             - oraclelinux-7
