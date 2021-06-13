@@ -11,10 +11,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'kitchen'
-require 'kitchen/configurable'
-require_relative 'cli_helper'
-require_relative 'container_helper'
+require "kitchen"
+require "kitchen/configurable"
+require_relative "cli_helper"
+require_relative "container_helper"
 
 module Kitchen
   module Docker
@@ -31,7 +31,7 @@ module Kitchen
               return img_id
             end
           end
-          raise ActionFailed, 'Could not parse Docker build output for image ID'
+          raise ActionFailed, "Could not parse Docker build output for image ID"
         end
 
         def remove_image(state)
@@ -40,19 +40,19 @@ module Kitchen
         end
 
         def build_image(state, dockerfile)
-          cmd = 'build'
-          cmd << ' --no-cache' unless config[:use_cache]
+          cmd = "build"
+          cmd << " --no-cache" unless config[:use_cache]
           extra_build_options = config_to_options(config[:build_options])
           cmd << " #{extra_build_options}" unless extra_build_options.empty?
           dockerfile_contents = dockerfile
-          build_context = config[:build_context] ? '.' : '-'
-          file = Tempfile.new('Dockerfile-kitchen', Dir.pwd)
+          build_context = config[:build_context] ? "." : "-"
+          file = Tempfile.new("Dockerfile-kitchen", Dir.pwd)
           output = begin
                      file.write(dockerfile)
                      file.close
                      docker_command("#{cmd} -f #{Shellwords.escape(dockerfile_path(file))} #{build_context}",
                                     input: dockerfile_contents,
-                                    environment: { DOCKER_BUILDKIT: '0' })
+                                    environment: { DOCKER_BUILDKIT: "0" })
                    ensure
                      file.close unless file.closed?
                      file.unlink
