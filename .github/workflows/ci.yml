@@ -7,13 +7,13 @@ on:
     #   - master
 
 jobs:
-  yamllint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@master
-      - name: Run yaml Lint
-        uses: actionshub/yamllint@main
+  # yamllint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@master
+  #     - name: Run yaml Lint
+  #       uses: actionshub/yamllint@main
   chefstyle:
     runs-on: ubuntu-latest
     strategy:
