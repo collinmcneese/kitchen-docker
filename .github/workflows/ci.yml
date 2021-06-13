@@ -1,19 +1,19 @@
 ---
 name: ci
-on:
+'on':
   pull_request:
   push:
     # branches:
     #   - master
 
 jobs:
-  yamllint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@master
-      - name: Run yaml Lint
-        uses: actionshub/yamllint@main
+  # yamllint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@master
+  #     - name: Run yaml Lint
+  #       uses: actionshub/yamllint@main
   chefstyle:
     runs-on: ubuntu-latest
     strategy:
@@ -44,7 +44,6 @@ jobs:
 
   build:
       needs:
-        - yamllint
         - unit
         - chefstyle
       strategy:
