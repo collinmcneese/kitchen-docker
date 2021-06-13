@@ -58,3 +58,23 @@ jobs:
             ruby-version: ${{ matrix.ruby }}
             bundler-cache: true
         - run: bundle exec rake build
+
+  functional:
+      strategy:
+        matrix:
+          os:
+            - amazonlinux-2
+            - ubuntu-18.04
+            - fedora-latest
+            - centos-7
+            - oraclelinux-7
+            - debian-9
+      runs-on: ubuntu-latest
+      name: Functional test ${{ matrix.os }}
+      steps:
+        - uses: actions/checkout@v2
+        - uses: ruby/setup-ruby@v1
+          with:
+            # ruby-version: ${{ matrix.ruby }}
+            bundler-cache: true
+        - run: bundle exec kitchen test ${{ matrix.os }}
