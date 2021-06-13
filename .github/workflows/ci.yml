@@ -43,6 +43,9 @@ jobs:
         - run: bundle exec rake spec
 
   build:
+      needs:
+        - unit
+        - chefstyle
       strategy:
         matrix:
           ruby: ['2.5', '2.6', '2.7', '3.0']
@@ -60,9 +63,10 @@ jobs:
         - run: bundle exec rake build
 
   functional:
+      needs: build
       strategy:
         matrix:
-          os:
+          kitchen-suite:
             - amazonlinux-2
             - ubuntu-1804
             - fedora-latest
@@ -70,11 +74,11 @@ jobs:
             - oraclelinux-7
             - debian-9
       runs-on: ubuntu-latest
-      name: Functional test ${{ matrix.os }}
+      name: Functional test ${{ matrix.kitchen-suite }}
       steps:
         - uses: actions/checkout@v2
         - uses: ruby/setup-ruby@v1
           with:
             ruby-version: '2.7'
             bundler-cache: true
-        - run: bundle exec kitchen test ${{ matrix.os }}
+        - run: bundle exec kitchen test ${{ matrix.kitchen-suite }}
