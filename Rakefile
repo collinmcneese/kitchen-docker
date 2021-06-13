@@ -16,16 +16,19 @@ task :stats do
 end
 
 desc "Run all quality tasks"
-task :quality => [:cane, :tailor, :stats]
+task :quality => [:style]
 
 task :default => [:quality]
 
-# begin
-#   require 'kitchen/rake_tasks'
-#   Kitchen::RakeTasks.new
-# rescue LoadError
-#   puts ">>>>> Kitchen gem not loaded, omitting tasks" unless ENV['CI']
-# end
+begin
+  require "chefstyle"
+  require "rubocop/rake_task"
+  RuboCop::RakeTask.new(:style) do |task|
+    task.options += ["--display-cop-names", "--no-color"]
+  end
+rescue LoadError
+  puts "chefstyle is not available. (sudo) gem install chefstyle to do style checking."
+end
 
 # Create the spec task.
 require 'rspec/core/rake_task'
