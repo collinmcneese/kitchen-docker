@@ -69,7 +69,16 @@ suites:
       cap_drop:
         - NET_ADMIN
   - name: inspec
+    excludes:
+      - windows-2019
     driver:
       provision_command: true
+    verifier:
+      name: inspec
+  - name: inspec-windows
+    includes:
+      - windows-2019
+    driver:
+      provision_command: echo 1
     verifier:
       name: inspec
