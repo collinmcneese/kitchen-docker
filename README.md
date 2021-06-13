@@ -608,8 +608,13 @@ example:
 1. Fork the repo
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+4. Test changes locally:
+   1. Install dependencies with Bundler - `bundle install`
+   2. Run Lint tests - `bundle exec rake quality`
+   3. Run Unit Tests (Update as needed with code changes) - `bundle exec rake spec`
+   4. Run Functional tests using Test Kitchen - `bundle exec kitchen test`
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create new Pull Request
 
 ## License
 
